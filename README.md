@@ -1,0 +1,4 @@
+siguo
+=====
+
+auto play siguo
