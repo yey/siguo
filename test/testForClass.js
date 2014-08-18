@@ -10,4 +10,6 @@ var Util = require('../model/Util');
 // console.log(Unicode.encode("这是一个测试"));
 // console.log(Unicode.decode("\u72c2\u6b22\u793c\u5305"));
 
-Util.buyGouLiang(2880, 2880+5);
+//Util.buyGouLiang(2880, 2880+46);
+var waitTime = "132000";//ms
+Util.fightBoss(5716,waitTime);

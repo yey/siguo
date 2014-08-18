@@ -4,6 +4,7 @@ var http = require('http');
 var querystring = require('querystring');
 var fs = require('fs');
 var configPath = "../config/siguo.cfg";
+var unicode = require('./Unicode');
 
 var opts = {
     host: 's1.android.siguozhanji.muhenet.com',
@@ -38,21 +39,28 @@ Util.buyGouLiang = function(startV,limit){
 }
 
 //fight boss
-Util.fightBoss = function(startV){
-    var data_fightBoss = querystring.stringify({GoodsId:1});
+Util.fightBoss = function(startV,waitTime){
     var opts_fightBoss = {
     host: 's1.android.siguozhanji.muhenet.com',
     port: 80,
-    path: '/boss.php?do=Fight&v='+v+'&phpp=ANDROID_XIAOMI&phpl=ZH_CN&pvc=1.4.1&pvb=2014-05-05 12:48:19',
+    path: '/boss.php?do=Fight&v='+startV+'&phpp=ANDROID_XIAOMI&phpl=ZH_CN&pvc=1.4.1&pvb=2014-05-05 12:48:19',
     method: 'POST',
     headers: {
             "Cookie":'_sid=12s25i4pkupnmmf4hc9u3sk3l4',
             "Connection": 'Keep-Alive',   
             "Content-Type":"application/x-www-form-urlencoded",
-            "Content-Length": data_fightBoss.length  
+            "Content-Length": 0
         }
     };
-    var waitTime = "95000";//ms
+    var req = http.request(opts_fightBoss, function(res){
+        res.setEncoding('utf8');
+        res.on('data', function(data){
+            console.log(unicode.decode(data));
+            startV++;
+            setTimeout(Util.fightBoss, waitTime, startV);
+        });
+    });
+    req.end();
 }
 //狗粮购买成功，注意cookie的设置和data的传输。setTimeout的参数传递规则
 
