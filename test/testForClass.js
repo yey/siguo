@@ -1,15 +1,26 @@
 var Unicode = require('../model/Unicode');
 var Util = require('../model/Util');
+var later = require('later');
+later.date.localTime();
+//潘神：150000
+//瘟疫: 114000
+//泰坦: 132000
+//擎天: 114000
+//海王: 150000
+var composite = [
+	{h:[13], m:[1]},
+	{h:[19], m:[1]}
+];
+var sched = {
+	schedules:composite
+};
 
-// Util.setConfig("test", "fucker");
-// console.log(Util.getConfig("heh"));
-// console.log(Util.getConfig("test"));
-// console.log(Util.getConfig("v"));
-// Util.setConfig("v","asdfaskf");
-// console.log(Util.getConfig("v"));
-// console.log(Unicode.encode("这是一个测试"));
-// console.log(Unicode.decode("\u72c2\u6b22\u793c\u5305"));
+var timer = later.setInterval(process, sched);
 
-//Util.buyGouLiang(2880, 2880+46);
-var waitTime = "132000";//ms
-Util.fightBoss(5716,waitTime);
+function process(){
+	console.log(new Date());
+	var waitTime = "150000";
+	Util.fightBoss(5716,waitTime);
+}
+// var waitTime = "114000";//ms
+// Util.fightBoss(7683,waitTime);

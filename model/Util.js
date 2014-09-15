@@ -46,7 +46,7 @@ Util.fightBoss = function(startV,waitTime){
     path: '/boss.php?do=Fight&v='+startV+'&phpp=ANDROID_XIAOMI&phpl=ZH_CN&pvc=1.4.1&pvb=2014-05-05 12:48:19',
     method: 'POST',
     headers: {
-            "Cookie":'_sid=12s25i4pkupnmmf4hc9u3sk3l4',
+            "Cookie":'_sid=s04nq27n1bo9oact742k9nm7o7',
             "Connection": 'Keep-Alive',   
             "Content-Type":"application/x-www-form-urlencoded",
             "Content-Length": 0
@@ -55,9 +55,13 @@ Util.fightBoss = function(startV,waitTime){
     var req = http.request(opts_fightBoss, function(res){
         res.setEncoding('utf8');
         res.on('data', function(data){
-            console.log(unicode.decode(data));
-            startV++;
-            setTimeout(Util.fightBoss, waitTime, startV);
+            var decodeData = unicode.decode(data);
+            console.log(decodeData);
+            decodeData = eval('(' + decodeData + ')');
+            if (decodeData.status == 1) {
+                startV++;
+                setTimeout(Util.fightBoss, waitTime, startV, waitTime);
+            };
         });
     });
     req.end();
