@@ -49,9 +49,20 @@ Util.fightJJC = function(startV){
             //这里能不能直接和第一名打呢～喔吼吼
             Util.getData(startV,'arena.php?do=RankFight',{CompetitorRank:competitorRank},function(fightRes){
                 startV++;
-                fightRes = eval('(' + fightRes + ')');  
-                console.log(fightRes);             
-                setTimeout(Util.fightJJC, 601000, startV);
+                console.log(fightRes);
+                try{
+                    fightRes = JSON.parse(fightRes);
+                    if (fightRes.status == 0 && fightRes.type == 8) {
+                        console.log(fightRes.message);
+                    }else{
+                        setTimeout(Util.fightJJC, 601000, startV);
+                    }
+                }catch(err){
+                    console.log("打了，而且你肯定输");
+                }
+                //fightRes = eval('(' + fightRes + ')');  
+                //console.log(fightRes);             
+                
             });
         };
     });

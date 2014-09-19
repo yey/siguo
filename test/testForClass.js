@@ -7,6 +7,7 @@ later.date.localTime();
 //泰坦: 132000
 //擎天: 114000
 //海王: 150000
+//*************************//
 var composite = [
 	{h:[13], m:[1]},
 	{h:[19], m:[1]}
@@ -15,12 +16,26 @@ var sched = {
 	schedules:composite
 };
 
-var timer = later.setInterval(process, sched);
+var timer = later.setInterval(fightBoss, sched);
 
-function process(){
+//*************************//
+
+var composite2 = [
+	{h:[22], m:[1]}
+];
+var sched2 = {
+	schedules:composite2
+};
+var timer2 = later.setInterval(fightJJC,sched2);
+
+//*************************//
+
+function fightBoss(){
 	console.log(new Date());
 	var waitTime = "150000";
 	Util.fightBoss(5716,waitTime);
 }
-// var waitTime = "114000";//ms
-// Util.fightBoss(7683,waitTime);
+
+function fightJJC(){
+	Util.fightJJC(5716);
+}
