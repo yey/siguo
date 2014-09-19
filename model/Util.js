@@ -7,12 +7,12 @@ var configPath = "../config/siguo.cfg";
 var unicode = require('./Unicode');
 
 var opts = {
-    host: 's1.android.siguozhanji.muhenet.com',
+    host: 's0.siguozhanji.muhenet.com',
     port: 80,
     path: '&phpp=ANDROID_XIAOMI&phpl=ZH_CN&pvc=1.4.1&pvb=2014-05-05 12:48:19',
     method: 'POST',
     headers: {
-            "Cookie":'_sid=12s25i4pkupnmmf4hc9u3sk3l4',
+            "Cookie":'_sid=05krgeu6p6t7cjl7aheq6emtr4',
             "Connection": 'Keep-Alive',   
             "Content-Type":"application/x-www-form-urlencoded" 
         }
@@ -38,15 +38,34 @@ Util.buyGouLiang = function(startV,limit){
     req.end();
 }
 
+Util.fightJJC = function(startV){
+    //切磋:Util.getData(startV,'arena.php?do=GetCompetitors');
+    //jjc:
+    Util.getData(startV,'arena.php?do=GetRankCompetitors','',function(res){
+        startV++;
+        res = eval('(' + res + ')');
+        if (res.status == 1) {
+            var competitorRank = res.data.Competitors[0].Rank;
+            //这里能不能直接和第一名打呢～喔吼吼
+            Util.getData(startV,'arena.php?do=RankFight',{CompetitorRank:competitorRank},function(fightRes){
+                startV++;
+                fightRes = eval('(' + fightRes + ')');  
+                console.log(fightRes);             
+                setTimeout(Util.fightJJC, 601000, startV);
+            });
+        };
+    });
+}
+
 //fight boss
 Util.fightBoss = function(startV,waitTime){
     var opts_fightBoss = {
-    host: 's1.android.siguozhanji.muhenet.com',
+    host: 's0.siguozhanji.muhenet.com',
     port: 80,
     path: '/boss.php?do=Fight&v='+startV+'&phpp=ANDROID_XIAOMI&phpl=ZH_CN&pvc=1.4.1&pvb=2014-05-05 12:48:19',
     method: 'POST',
     headers: {
-            "Cookie":'_sid=s04nq27n1bo9oact742k9nm7o7',
+            "Cookie":'_sid=05krgeu6p6t7cjl7aheq6emtr4',
             "Connection": 'Keep-Alive',   
             "Content-Type":"application/x-www-form-urlencoded",
             "Content-Length": 0
@@ -78,4 +97,24 @@ Util.getConfig = function(key){
     var data = fs.readFileSync(configPath, 'utf-8');
     var decodeData = JSON.parse(data);
     return decodeData[key];
+}
+Util.getData = function(startV, path, data, callback){
+    var data_getData = querystring.stringify(data);
+    var opts_getData = opts;
+    opts_getData.path = '/'+path+'&v='+startV+opts_getData.path;
+    opts_getData.headers["Content-Length"] = data_getData.length;
+    var req = http.request(opts_getData, function(res){
+        res.setEncoding('utf8');
+        res.on('data', function(data){
+            var decodeData = unicode.decode(data);
+            callback(decodeData);
+            // decodeData = eval('(' + decodeData + ')');
+            // if (decodeData.status == 1) {
+            //     startV++;
+            //     setTimeout(Util.fightBoss, waitTime, startV, waitTime);
+            // };
+        });
+    });
+    req.write(data_getData);
+    req.end();
 }
