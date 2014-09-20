@@ -16,9 +16,9 @@ var later = require('later');
 // };
 
 // var timer = later.setInterval(process, sched);
-
+var zlib = require('zlib');
 function process(){
-	Util.fightJJC(5716);
+	Util.addFriends(5716);
 }
 process();
 // var waitTime = "114000";//ms

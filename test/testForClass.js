@@ -29,6 +29,14 @@ var sched2 = {
 var timer2 = later.setInterval(fightJJC,sched2);
 
 //*************************//
+var composite3 = [
+	{h:[0], m:[1]}
+];
+var sched3 = {
+	schedules:composite3
+};
+var timer3 = later.setInterval(Util.test,sched3,5716);
+//*************************//
 
 function fightBoss(){
 	console.log(new Date());
@@ -38,4 +46,12 @@ function fightBoss(){
 
 function fightJJC(){
 	Util.fightJJC(5716);
+}
+
+function setTask(time,task,v){
+	var c = time;
+	var s = {
+		schedules:c
+	};
+	var t = later.setInterval(task,s,v);
 }

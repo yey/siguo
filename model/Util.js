@@ -3,6 +3,7 @@ var Util = exports;
 var http = require('http');
 var querystring = require('querystring');
 var fs = require('fs');
+var zlib = require('zlib');
 var configPath = "../config/siguo.cfg";
 var unicode = require('./Unicode');
 
@@ -13,7 +14,8 @@ var opts = {
     method: 'POST',
     headers: {
             "Cookie":'_sid=05krgeu6p6t7cjl7aheq6emtr4',
-            "Connection": 'Keep-Alive',   
+            "Connection": 'Keep-Alive',
+            "Accept-Encoding": 'gzip,deflate',   
             "Content-Type":"application/x-www-form-urlencoded" 
         }
     };
@@ -36,6 +38,47 @@ Util.buyGouLiang = function(startV,limit){
     });
     req.write(data_buyGold);
     req.end();
+}
+
+Util.test = function(startV){
+    Util.getData(startV,'friend.php?do=GetFriends','',function(res){
+    // Util.getData(startV,'user.php?do=GetUserinfo','',function(res){
+    // Util.getData(startV,'fenergy.php?do=SendFEnergy',{Fid:57019},function(res){
+    // Util.getData(startV,'user.php?do=GetUserinfo','',function(res){
+    // Util.getData(startV,'user.php?do=GetUserinfo','',function(res){
+        startV++;
+        //console.log(res);
+    });
+}
+
+Util.addFriends = function(startV){
+    Util.getData(startV,'friend.php?do=GetAddFriends','',function(res){
+        startV++;
+        console.log(res);
+        res = eval('(' + res + ')');
+        if (res.status == 1) {
+            var imFriends = res.data.AddFriends;
+
+        };
+    });
+}
+
+Util.sendFEnergy = function(startV){
+    Util.getData(startV,'friend.php?do=GetFriends','',function(res){
+        startV++;
+        res = eval('(' + res + ')');
+        if (res.status == 1) {
+            var friends = res.data.Friends;
+            for (var i = 0; i < friends.length; i++) {
+                if(friends[i].FEnergySend > 0){
+                    Util.getData(startV,'fenergy.php?do=SendFEnergy',{Fid:friends[i].Uid},function(sendRes){
+                        console.log(sendRes);
+                    });
+                    startV++;
+                }
+            };
+        };
+    });
 }
 
 Util.fightJJC = function(startV){
@@ -115,16 +158,37 @@ Util.getData = function(startV, path, data, callback){
     opts_getData.path = '/'+path+'&v='+startV+opts_getData.path;
     opts_getData.headers["Content-Length"] = data_getData.length;
     var req = http.request(opts_getData, function(res){
-        res.setEncoding('utf8');
-        res.on('data', function(data){
-            var decodeData = unicode.decode(data);
-            callback(decodeData);
-            // decodeData = eval('(' + decodeData + ')');
-            // if (decodeData.status == 1) {
-            //     startV++;
-            //     setTimeout(Util.fightBoss, waitTime, startV, waitTime);
-            // };
-        });
+// console.log(res.headers['content-encoding']);
+        switch(res.headers['content-encoding']){
+            case 'gzip':{
+                var dataArr = [], len = 0, result;
+                res.on('data',function(data){
+                    dataArr.push(data);
+                    len += data.length;
+                });
+                res.on('end',function(){
+                    var buffer = Buffer.concat(dataArr,len);
+                    result = zlib.unzip(buffer,function(err,buffer){
+                        if (!err) {
+                            // console.log(unicode.decode(buffer.toString()));
+                            callback(unicode.decode(buffer.toString()));
+                        };
+                    });
+                });
+                break;
+            }
+            case 'deflate':{
+                break;
+            }
+            default:{
+                res.setEncoding('utf8');
+                res.on('data', function(data){
+                    var decodeData = unicode.decode(data);
+                    callback(decodeData);
+                });
+                break;
+            }
+        }
     });
     req.write(data_getData);
     req.end();
