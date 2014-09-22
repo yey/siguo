@@ -110,36 +110,28 @@ Util.fightJJC = function(startV){
         };
     });
 }
-
-//fight boss
-Util.fightBoss = function(startV,waitTime){
-    var opts_fightBoss = {
-    host: 's0.siguozhanji.muhenet.com',
-    port: 80,
-    path: '/boss.php?do=Fight&v='+startV+'&phpp=ANDROID_XIAOMI&phpl=ZH_CN&pvc=1.4.1&pvb=2014-05-05 12:48:19',
-    method: 'POST',
-    headers: {
-            "Cookie":'_sid=05krgeu6p6t7cjl7aheq6emtr4',
-            "Connection": 'Keep-Alive',   
-            "Content-Type":"application/x-www-form-urlencoded",
-            "Content-Length": 0
+//潘神：150000
+//瘟疫: 114000
+//泰坦: 132000
+//擎天: 114000
+//海王: 150000
+Util.fightBoss = function(startV){
+    Util.getData(startV,'boss.php?do=Fight','',function(res){
+        startV++;
+        res = eval('(' + res + ')');
+        console.log(res);
+        if (res.status == 1) {
+            var waitTime = 1000*res.data.CanFightTime + 300;
+            setTimeout(Util.fightBoss, waitTime, startV);
+        }else if(res.status == 0 && res.message != "Boss还未刷新或已逃走"){
+            //意外情况，15s重试一次
+            var waitTime = 1000*15 + 300;
+            setTimeout(Util.fightBoss, waitTime, startV);            
+        }else{
+            console.log("打完啦");
         }
-    };
-    var req = http.request(opts_fightBoss, function(res){
-        res.setEncoding('utf8');
-        res.on('data', function(data){
-            var decodeData = unicode.decode(data);
-            console.log(decodeData);
-            decodeData = eval('(' + decodeData + ')');
-            if (decodeData.status == 1) {
-                startV++;
-                setTimeout(Util.fightBoss, waitTime, startV, waitTime);
-            };
-        });
     });
-    req.end();
 }
-//狗粮购买成功，注意cookie的设置和data的传输。setTimeout的参数传递规则
 
 Util.setConfig = function(key, value){
     var data = fs.readFileSync(configPath, 'utf-8');

@@ -18,7 +18,7 @@ var later = require('later');
 // var timer = later.setInterval(process, sched);
 var zlib = require('zlib');
 function process(){
-	Util.addFriends(5716);
+	Util.fightBoss_bak(5716);
 }
 process();
 // var waitTime = "114000";//ms
