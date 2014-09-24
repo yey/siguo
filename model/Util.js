@@ -6,14 +6,14 @@ var fs = require('fs');
 var zlib = require('zlib');
 var configPath = "../config/siguo.cfg";
 var unicode = require('./Unicode');
-
+//05krgeu6p6t7cjl7aheq6emtr4
 var opts = {
     host: 's0.siguozhanji.muhenet.com',
     port: 80,
     path: '&phpp=ANDROID_XIAOMI&phpl=ZH_CN&pvc=1.4.1&pvb=2014-05-05 12:48:19',
     method: 'POST',
     headers: {
-            "Cookie":'_sid=05krgeu6p6t7cjl7aheq6emtr4',
+            "Cookie":'_sid=p3au6focd6rbnf4utfmde6fvi2; expires=Fri, 03-Oct-2014 16:59:58 GMT; path=/',
             "Connection": 'Keep-Alive',
             "Accept-Encoding": 'gzip,deflate',   
             "Content-Type":"application/x-www-form-urlencoded" 
@@ -47,7 +47,7 @@ Util.test = function(startV){
     // Util.getData(startV,'user.php?do=GetUserinfo','',function(res){
     // Util.getData(startV,'user.php?do=GetUserinfo','',function(res){
         startV++;
-        //console.log(res);
+        console.log(res);
     });
 }
 
@@ -58,7 +58,12 @@ Util.addFriends = function(startV){
         res = eval('(' + res + ')');
         if (res.status == 1) {
             var imFriends = res.data.AddFriends;
-
+            for (var i = 0; i < imFriends.length; i++) {
+                Util.getData(startV,'friend.php?do=Apply',{FUid:imFriends[i].Uid},function(res2){
+                    console.log(res2);
+                });
+                startV++;
+            };
         };
     });
 }
@@ -110,11 +115,7 @@ Util.fightJJC = function(startV){
         };
     });
 }
-//潘神：150000
-//瘟疫: 114000
-//泰坦: 132000
-//擎天: 114000
-//海王: 150000
+
 Util.fightBoss = function(startV){
     Util.getData(startV,'boss.php?do=Fight','',function(res){
         startV++;
