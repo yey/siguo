@@ -42,6 +42,21 @@ Util.test = function(startV){
     });
 }
 
+Util.changeCardGroups = function(startV, id){
+    Util.getData(startV, 'card.php?do=GetCardGroup','',function(res){
+        startV++;
+        console.log(res);
+        res = eval('(' + res + ')');
+        if (res.status == 1) {
+            var groups = res.data.Groups;
+            var ids = groups[id-1]["GroupId"];
+            Util.getData(startV, 'card.php?do=SetDefalutGroup',{GroupId:ids},function(res2){
+                console.log(res2);
+            });
+        };
+    });
+}
+
 Util.addFriends = function(startV){
     Util.getData(startV,'friend.php?do=GetAddFriends','',function(res){
         startV++;
