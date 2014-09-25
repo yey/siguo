@@ -1,5 +1,5 @@
-var Unicode = require('../model/Unicode');
-var Util = require('../model/Util');
+var Unicode = require('./model/Unicode');
+var Util = require('./model/Util');
 var later = require('later');
 later.date.localTime();
 
@@ -39,9 +39,15 @@ setTask(c2,Util.sendFEnergy, 5716);
  */
 
 var c3 = [
-	{h:[22], m:[01]}
+	{h:[22], m:[1]},
+	{h:[10], m:[0]}
 ];
 setTask(c3,Util.fightJJC, 5716);
+
+/**
+ * check energy and fight pve
+ */
+
 
 /***************************/
 function setTask(t,task,v){

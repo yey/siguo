@@ -19,25 +19,16 @@ var opts = {
             "Content-Type":"application/x-www-form-urlencoded" 
         }
     };
-//buy times = limit - startV
-Util.buyGouLiang = function(startV,limit){
-    var data_buyGold = querystring.stringify({GoodsId:1});
-    var opts_buyGold = opts;
-    opts_buyGold.path = '/shop.php?do=Buy&v='+startV+opts_buyGold.path;
-    opts_buyGold.headers["Content-Length"] = data_buyGold.length;
 
-    var req = http.request(opts_buyGold, function(res){
-        res.setEncoding('utf8');
-        res.on('data', function(data){
-            console.log(data);
-            startV++;
-            if(startV<limit){
-                setTimeout(Util.buyGouLiang, 1000, startV, limit);
-            }
-        });
+Util.buyGouLiang = function(startV, limit){
+    Util.getData(startV,'shop.php?do=Buy',{GoodsId:1},function(res){
+        startV++;
+        console.log(res);
+        res = eval('(' + res + ')');
+        if (res.status == 1 && startV < limit) {
+            setTimeout(Util.buyGouLiang, 1000, startV, limit);
+        }   
     });
-    req.write(data_buyGold);
-    req.end();
 }
 
 Util.test = function(startV){

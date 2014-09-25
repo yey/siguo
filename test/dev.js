@@ -4,7 +4,7 @@ var later = require('later');
 var zlib = require('zlib');
 
 function process(){
-	Util.addFriends(5716);
+	Util.buyGouLiang(5716, 5756);
 }
 
 process();
