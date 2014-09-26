@@ -5,8 +5,8 @@ var zlib = require('zlib');
 
 function process(){
 	//Util.buyGouLiang(5716, 5756);
-	Util.changeCardGroups(5716,1);
+	Util.fightTowerLayer(5716,3,3);
+	//Util.fightTower(5716,2,1,3);
 }
 
 process();
-

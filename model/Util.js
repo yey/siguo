@@ -42,6 +42,80 @@ Util.test = function(startV){
     });
 }
 
+Util.tower = function(startV,id){
+    Util.getData(startV,'maze.php?do=Show',{MapStageId:id},function(res){
+        startV++;
+        console.log(res);
+        res = eval('(' + res + ')');
+        if (res.status == 1) {
+            if (res.data.Clear == 0) {
+                Util.fightTowerLayer(startV,id,res.data.Layer);
+            }else if(res.data.FreeReset == 1){
+                //reset and fight
+            }
+        }
+    });
+}
+
+Util.fightTowerLayer = function(startV,map,layer){
+    Util.getData(startV,'maze.php?do=Info',{MapStageId:map,Layer:layer},function(res){
+        startV++;
+        console.log(res);
+        res = eval('(' + res + ')');
+        if (res.status == 1) {
+            var items = res.data.Map.Items;
+            for (var i = 0; i < items.length; i++) {
+                if(items[i] == 2 || items[i] == 3 || items[i] == 5){
+                    console.log(i);
+                    //Util.fightTower(startV,map,layer,i);
+                }
+            };
+            if (res.data.Layer < res.data.TotalLayer) {
+                console.log("yey" + res.data.Layer);
+                var l = layer++;
+                Util.fightTowerLayer(startV,map,l);
+            };
+        }
+    });
+}
+
+Util.fightTower = function(startV,map,layer,item){
+    Util.getData(startV,'maze.php?do=Battle',{MapStageId:map,Layer:layer,manual:1,ItemIndex:item},function(res){
+        startV++;
+        console.log(res);
+        res = eval('(' + res + ')');
+        if (res.status == 1) {
+            Util.getData(startV,'maze.php?do=ManualBattle',{stage:'',battleid:res.data.BattleId,manual:0},function(res2){
+                startV++;
+                console.log(res2);
+                res2 = eval('(' + res2 + ')');
+                if (res2.status == 1) {
+
+                };
+            });
+        };
+    });
+}
+
+
+Util.explore = function(startV){
+    Util.getData(startV,'mapstage.php?do=GetUserMapStages','',function(res){
+        startV++;
+        console.log(res);
+        res = eval('(' + res + ')');
+        if (res.status == 1) {
+
+        }
+    });
+}
+
+Util.exploreCell = function(startV,id){
+    Util.getData(startV,'mapstage.php?do=Explore',{MapStageDetailId:id},function(res){
+        startV++;
+        console.log(res);
+    });
+}
+
 Util.changeCardGroups = function(startV, id){
     Util.getData(startV, 'card.php?do=GetCardGroup','',function(res){
         startV++;
