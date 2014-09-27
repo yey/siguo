@@ -116,16 +116,69 @@ Util.exploreCell = function(startV,id){
     });
 }
 
-Util.changeCardGroups = function(startV, id){
-    Util.getData(startV, 'card.php?do=GetCardGroup','',function(res){
+Util.changeCardGroups = function(startV, id, callback){
+    // Util.getData(startV, 'card.php?do=GetCardGroup','',function(res){
+    //     startV++;
+    //     console.log(res);
+    //     res = eval('(' + res + ')');
+    //     if (res.status == 1) {
+    //         var groups = res.data.Groups;
+    //         //var ids = groups[id-1]["GroupId"];
+    //         // Util.getData(startV, 'card.php?do=SetDefalutGroup',{GroupId:id},function(res2){
+    //         //     console.log(res2);
+    //         // });
+    //     };
+    // });
+    Util.getData(startV, 'card.php?do=SetDefalutGroup',{GroupId:id},function(res){
         startV++;
         console.log(res);
         res = eval('(' + res + ')');
         if (res.status == 1) {
-            var groups = res.data.Groups;
-            var ids = groups[id-1]["GroupId"];
-            Util.getData(startV, 'card.php?do=SetDefalutGroup',{GroupId:ids},function(res2){
+            callback(null);
+        }else{
+            callback("err");
+        }
+    });
+
+}
+
+Util.planEnergy = function(startV){
+    Util.getData(startV,'user.php?do=GetUserinfo','',function(res){
+        startV++;
+        console.log(res);
+        res = eval('(' + res + ')');
+        if (res.status == 1) {
+            if (res.data.Energy >= 30) {
+                Util.clearEnergyByPve(startV,37);
+            };
+        }
+    });
+}
+
+Util.clearEnergyByPve = function(startV,gid){
+    Util.changeCardGroups(startV,5450,function(res){
+        startV++;
+        console.log(res);
+        if (!res) {
+            Util.getData(startV,'mapstage.php?do=EditUserMapStages',{MapStageDetailId:gid,isManual:1},function(res2){
+                startV++;
                 console.log(res2);
+                res2 = eval('(' + res2 + ')');
+                if (res2.status == 1) {
+                    Util.getData(startV,'mapstage.php?do=Battle',{
+                        MapStageDetailId:gid,
+                        isManual:0,
+                        battleid:res2.data.BattleId,
+                        stage:''
+                    },function(res3){
+                        startV++;
+                        console.log(res3);
+                        res3 = eval('(' + res3 + ')');
+                        if (res3.status == 1) {
+                            Util.clearEnergyByPve(startV,gid);
+                        };
+                    });
+                };
             });
         };
     });
@@ -166,6 +219,58 @@ Util.sendFEnergy = function(startV){
     });
 }
 
+Util.getFEnergy = function(startV){
+    Util.getData(startV,'friend.php?do=GetFriends','',function(res){
+        startV++;
+        console.log(res);
+        res = eval('(' + res + ')');
+        if (res.status == 1) {
+            for (var i = 0; i < res.data.Friends.length; i++) {
+                if(res.data.Friends[i].FEnergySurplus > 0){
+                    Util.getData(startV,'fenergy.php?do=GetFEnergy',{Fid:res.data.Friends[i].Uid},function(res2){
+                        console.log(res2);
+                        res2 = eval('(' + res2 + ')');
+                        if (res2.status == 0) {
+                            
+                        };
+                    });
+                    startV++;
+                };
+            };
+        };
+    });
+}
+
+Util.getAwards = function(startV){
+    Util.getData(startV,'user.php?do=GetUserSalary','',function(res){
+        startV++;
+        console.log(res);
+        res = eval('(' + res + ')');
+        if (res.status == 1) {
+            if (res.data.SalaryInfos.length > 0) {
+                Util.getData(startV,'user.php?do=AwardSalary','',function(res2){
+                    startV++;
+                    console.log(res2);
+                    res2 = eval('(' + res2 + ')');
+                    if (res2.status == 1) {
+                        console.log("领钱钱啦~");
+                    };
+                });
+            };
+        };
+    });
+}
+
+Util.fightJJCV2 = function(startV){
+    Util.changeCardGroups(startV,5450,function(res){
+        startV++;
+        console.log(res);
+        if (!res) {
+            Util.fightJJC(startV);
+        };
+    });
+}
+
 Util.fightJJC = function(startV){
     //切磋:Util.getData(startV,'arena.php?do=GetCompetitors');
     //jjc:
@@ -192,6 +297,16 @@ Util.fightJJC = function(startV){
                 //console.log(fightRes);             
                 
             });
+        };
+    });
+}
+
+Util.fightBossV2 = function(startV){
+    Util.changeCardGroups(startV,5619,function(res){
+        startV++;
+        console.log(res);
+        if (!res) {
+            Util.fightBoss(startV);
         };
     });
 }

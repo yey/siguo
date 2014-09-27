@@ -27,3 +27,13 @@ auto play siguo
  */
 
 =====
+
+/**
+ * energy
+ * 每小时的55分，检查体力，如果超过30，clearEnergyByPve
+ * 每天的23:50，领取所有好友体力，clearEnergyByPve
+ *
+ * 
+ * reward
+ * 每隔6小时，检查是否有reward，如果有，领取
+ */
