@@ -17,10 +17,16 @@ auto play siguo
 
 /**
  * todo:
- * recognize boss type and choose groups
- * 
+ *
+ * getGoodCards:
  * fightTower
- * 
+ * fightThief
+ *
+ * getDiamonds:
+ * recognise activities
+ *
+ * beWinner:
+ * recognize boss type and choose groups
  * composite cards groups
  * create brain
  */
