@@ -70,11 +70,11 @@ Util.fightTowerLayer = function(startV,map,layer){
                     //Util.fightTower(startV,map,layer,i);
                 }
             };
-            if (res.data.Layer < res.data.TotalLayer) {
-                console.log("yey" + res.data.Layer);
-                var l = layer++;
-                Util.fightTowerLayer(startV,map,l);
-            };
+            // if (res.data.Layer < res.data.TotalLayer) {
+            //     console.log("yey" + res.data.Layer);
+            //     var l = layer++;
+            //     Util.fightTowerLayer(startV,map,l);
+            // };
         }
     });
 }

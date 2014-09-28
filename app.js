@@ -4,14 +4,6 @@ var later = require('later');
 later.date.localTime();
 
 /**
- * //潘神：150000
-//瘟疫: 114000
-//泰坦: 132000
-//擎天: 114000
-//海王: 150000
- */
-
-/**
 * fight boss v1.0
 * todo: add boss type check and change card groups
 */
@@ -20,7 +12,7 @@ var c1 = [
 	{h:[13], m:[1]},
 	{h:[19], m:[1]}
 ];
-setTask(c1,Util.fightBoss, 5716);
+setTask(c1,Util.fightBossV2, 5716);
 
 /**
  * send Friends Energy
@@ -39,15 +31,36 @@ setTask(c2,Util.sendFEnergy, 5716);
  */
 
 var c3 = [
-	{h:[22], m:[1]},
-	{h:[10], m:[0]}
+	{h:[22], m:[1]}
 ];
-setTask(c3,Util.fightJJC, 5716);
+setTask(c3,Util.fightJJCV2, 5716);
+
+/**
+ * check reward and get autoly
+ */
+var c4 = [
+	{h:[8], m:[1]},
+	{h:[20], m:[1]}
+];
+setTask(c4,Util.getAwards, 5716);
 
 /**
  * check energy and fight pve
  */
 
+var c5 = [
+	{h:[0,3,6,9,12,15,17,20,23], m:[55]}
+];
+setTask(c5,Util.planEnergy,5716);
+
+/**
+ * get friends energy
+ */
+
+var c6 = [
+	{h:[23], m:[30]}
+];
+setTask(c6,Util.getFEnergy,5716);
 
 /***************************/
 function setTask(t,task,v){
@@ -55,4 +68,11 @@ function setTask(t,task,v){
 		schedules:t
 	};
 	var timer = later.setInterval(task,s,v);
+}
+
+function setTask2(t,task,v,id){
+	var s = {
+		schedules:t
+	};
+	var timer = later.setInterval(task,s,v,id);
 }
