@@ -3,7 +3,7 @@ var Util = require('../model/Util');
 var later = require('later');
 
 function process(){
-	Util.fightJJCV2(5716);
+	Util.buyGouLiang(5716,6016);
 }
 
 process();

@@ -17,6 +17,8 @@ auto play siguo
 
 /**
  * todo:
+ * 
+ * add forever
  *
  * getGoodCards:
  * fightTower
