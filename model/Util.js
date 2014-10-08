@@ -149,7 +149,7 @@ Util.planEnergy = function(startV){
         res = eval('(' + res + ')');
         if (res.status == 1) {
             if (res.data.Energy >= 30) {
-                Util.clearEnergyByPve(startV,37);
+                Util.clearEnergyByPve(startV,49);
             };
         }
     });
@@ -319,7 +319,7 @@ Util.fightBoss = function(startV){
         if (res.status == 1) {
             var waitTime = 1000*res.data.CanFightTime + 300;
             setTimeout(Util.fightBoss, waitTime, startV);
-        }else if(res.status == 0 && res.message != "Boss还未刷新或已逃走"){
+        }else if(res.status == 0 && res.message != "Boss还未刷新或已逃走" && res.message != "有手快的已经把Boss打掉啦~"){
             //意外情况，15s重试一次
             var waitTime = 1000*15 + 300;
             setTimeout(Util.fightBoss, waitTime, startV);            

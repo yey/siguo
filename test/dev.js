@@ -3,7 +3,7 @@ var Util = require('../model/Util');
 var later = require('later');
 
 function process(){
-	Util.planEnergy(5716);
+	Util.fightJJCV2(5716);
 }
 
 process();
