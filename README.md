@@ -55,18 +55,17 @@ auto play siguo
  * 每星期天 0:00-23:59: 20:00-22:00在线可获得5张魔幻券
  */
 
- /**
-  * tower
-  * 5:18*2 = 36
-  */
- 
- /**
-  * mi3 cookie:
-  * 05krgeu6p6t7cjl7aheq6emtr4
-  *
-  * new cookie:
-  * p3au6focd6rbnf4utfmde6fvi2
-  */
+/**
+ * tower
+ * 5:18*2 = 36
+ */
+
+/**
+ * mi3 cookie:
+ * 05krgeu6p6t7cjl7aheq6emtr4
+ * new cookie:
+ * p3au6focd6rbnf4utfmde6fvi2
+ */
  
 
 /**

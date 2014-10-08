@@ -278,11 +278,16 @@ Util.fightJJC = function(startV){
         startV++;
         res = eval('(' + res + ')');
         if (res.status == 1) {
-            var competitorRank = res.data.Competitors[0].Rank;
+            var tip = 0;
+            for (var i = 0; i < res.data.Competitors.length; i++) {
+                if(res.data.Competitors[i].Level < res.data.Competitors[tip].Level){
+                    tip = i;
+                }
+            };
+            var competitorRank = res.data.Competitors[tip].Rank;            
             //这里能不能直接和第一名打呢～喔吼吼
             Util.getData(startV,'arena.php?do=RankFight',{CompetitorRank:competitorRank},function(fightRes){
                 startV++;
-                console.log(fightRes);
                 try{
                     fightRes = JSON.parse(fightRes);
                     if (fightRes.status == 0 && fightRes.type == 8) {
