@@ -117,21 +117,8 @@ Util.exploreCell = function(startV,id){
 }
 
 Util.changeCardGroups = function(startV, id, callback){
-    // Util.getData(startV, 'card.php?do=GetCardGroup','',function(res){
-    //     startV++;
-    //     console.log(res);
-    //     res = eval('(' + res + ')');
-    //     if (res.status == 1) {
-    //         var groups = res.data.Groups;
-    //         //var ids = groups[id-1]["GroupId"];
-    //         // Util.getData(startV, 'card.php?do=SetDefalutGroup',{GroupId:id},function(res2){
-    //         //     console.log(res2);
-    //         // });
-    //     };
-    // });
     Util.getData(startV, 'card.php?do=SetDefalutGroup',{GroupId:id},function(res){
         startV++;
-        console.log(res);
         res = eval('(' + res + ')');
         if (res.status == 1) {
             callback(null);
@@ -139,7 +126,6 @@ Util.changeCardGroups = function(startV, id, callback){
             callback("err");
         }
     });
-
 }
 
 Util.planEnergy = function(startV){
@@ -158,11 +144,9 @@ Util.planEnergy = function(startV){
 Util.clearEnergyByPve = function(startV,gid){
     Util.changeCardGroups(startV,5450,function(res){
         startV++;
-        console.log(res);
         if (!res) {
             Util.getData(startV,'mapstage.php?do=EditUserMapStages',{MapStageDetailId:gid,isManual:1},function(res2){
                 startV++;
-                console.log(res2);
                 res2 = eval('(' + res2 + ')');
                 if (res2.status == 1) {
                     Util.getData(startV,'mapstage.php?do=Battle',{
@@ -172,8 +156,8 @@ Util.clearEnergyByPve = function(startV,gid){
                         stage:''
                     },function(res3){
                         startV++;
-                        console.log(res3);
                         res3 = eval('(' + res3 + ')');
+                        console.log("{Win:"+res3.data.Win + ",Bonus:" + res3.data.ExtData.Bonus[0] + "&" + res3.data.ExtData.Bonus[1] + "}");
                         if (res3.status == 1) {
                             Util.clearEnergyByPve(startV,gid);
                         };
@@ -329,7 +313,7 @@ Util.fightBoss = function(startV){
             var waitTime = 1000*15 + 300;
             setTimeout(Util.fightBoss, waitTime, startV);            
         }else{
-            console.log("打完啦");
+            //console.log("打完啦");
         }
     });
 }

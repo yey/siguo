@@ -3,7 +3,7 @@ var Util = require('../model/Util');
 var later = require('later');
 
 function process(){
-	Util.buyGouLiang(5716,6016);
+	Util.planEnergy(5716);
 }
 
 process();

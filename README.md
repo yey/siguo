@@ -18,11 +18,13 @@ auto play siguo
 /**
  * todo:
  * 
- * add forever
+ * add forever:当前连续性任务无法继续
  *
  * getGoodCards:
  * fightTower
  * fightThief
+ * 
+ * Compute energy and task weight,choose better way
  *
  * getDiamonds:
  * recognise activities
