@@ -134,7 +134,7 @@ Util.planEnergy = function(startV){
         console.log(res);
         res = eval('(' + res + ')');
         if (res.status == 1) {
-            if (res.data.Energy >= 30) {
+            if (res.data.Energy >= 28) {
                 Util.clearEnergyByPve(startV,49);
             };
         }

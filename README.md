@@ -17,7 +17,8 @@ auto play siguo
 
 /**
  * todo:
- * 
+ *
+ * buy energy every day
  * add forever:当前连续性任务无法继续
  *
  * getGoodCards:
