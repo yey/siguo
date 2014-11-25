@@ -10,10 +10,10 @@ var unicode = require('./Unicode');
 var opts = {
     host: 's0.siguozhanji.muhenet.com',
     port: 80,
-    path: '&phpp=ANDROID_XIAOMI&phpl=ZH_CN&pvc=1.4.1&pvb=2014-05-05 12:48:19',
+    path: '&phpp=ANDROID&phpl=ZH_CN&pvc=1.5.3&phpk=2cd67818c0cd7f94b55a559305366a53&phps=967490802&pvb=2014-11-17 11:25',
     method: 'POST',
     headers: {
-            "Cookie":'_sid=p3au6focd6rbnf4utfmde6fvi2; expires=Fri, 03-Oct-2014 16:59:58 GMT; path=/',
+            "Cookie":'_sid=4eajpqpmq1fatsuiegjhjhm7e5; expires=Fri, 28-Nov-2014 10:03:40 GMT; path=/',
             "Connection": 'Keep-Alive',
             "Accept-Encoding": 'gzip,deflate',   
             "Content-Type":"application/x-www-form-urlencoded" 
@@ -43,6 +43,11 @@ Util.test = function(startV){
 }
 
 Util.tower = function(startV,id){
+    var energy = {
+        "7":46,
+        "8":46
+    };
+    //check energy now and do or not
     Util.getData(startV,'maze.php?do=Show',{MapStageId:id},function(res){
         startV++;
         console.log(res);
@@ -64,6 +69,7 @@ Util.fightTowerLayer = function(startV,map,layer){
         res = eval('(' + res + ')');
         if (res.status == 1) {
             var items = res.data.Map.Items;
+            // turn for into async.whlist
             for (var i = 0; i < items.length; i++) {
                 if(items[i] == 2 || items[i] == 3 || items[i] == 5){
                     console.log(i);
