@@ -31,7 +31,7 @@ setTask(c2,Util.sendFEnergy, 5716);
  */
 
 var c3 = [
-	{h:[22], m:[30]}
+	{h:[4], m:[1]}
 ];
 setTask(c3,Util.fightJJCV2, 5716);
 
