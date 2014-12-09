@@ -141,18 +141,18 @@ Util.planEnergy = function(startV){
         res = eval('(' + res + ')');
         if (res.status == 1) {
             if (res.data.Energy >= 28) {
-                Util.clearEnergyByPve(startV,60);
+                Util.clearEnergyByPve(startV,72);
             };
         }
     });
 }
 
 Util.clearEnergyByPve = function(startV,gid){
-    Util.changeCardGroups(startV,6083,function(res){
+    Util.changeCardGroups(startV,5450,function(res){
         startV++;
         if (!res) {
             Util.getData(startV,'mapstage.php?do=EditUserMapStages',{MapStageDetailId:gid,isManual:1},function(res2){
-                startV++;
+				startV++;
                 res2 = eval('(' + res2 + ')');
                 if (res2.status == 1) {
                     Util.getData(startV,'mapstage.php?do=Battle',{
