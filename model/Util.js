@@ -287,6 +287,7 @@ Util.fightJJC = function(startV){
                     }
                 }catch(err){
                     console.log("打了，而且你肯定输");
+                    setTimeout(Util.fightJJC, 601000, startV);
                 }
                 //fightRes = eval('(' + fightRes + ')');  
                 //console.log(fightRes);             

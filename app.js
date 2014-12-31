@@ -50,7 +50,7 @@ setTask(c4,Util.getAwards, 5716);
 
 var c5 = [
 	{h:[0,3,6,9,11,12,15,17,18,21,23], m:[55]},
-	{h:[12,18,23],m:[5]}
+	{h:[18,23],m:[5]}
 ];
 setTask(c5,Util.planEnergy,5716);
 
