@@ -10,23 +10,114 @@ var unicode = require('./Unicode');
 var opts = {
     host: 's0.siguozhanji.muhenet.com',
     port: 80,
-    path: '&phpp=ANDROID&phpl=ZH_CN&pvc=1.5.3&phpk=2cd67818c0cd7f94b55a559305366a53&phps=967490802&pvb=2014-11-17 11:25',
+    path: '&phpp=ANDROID&phpl=ZH_CN&pvc=1.5.3&phpk=44b56ddd4c0edea1b551141a2de8ba67&phps=882334173&pvb=2014-11-17 11:25',
     method: 'POST',
     headers: {
-            "Cookie":'_sid=4eajpqpmq1fatsuiegjhjhm7e5; expires=Fri, 28-Nov-2014 10:03:40 GMT; path=/',
+            "Cookie":'_sid=9as3mkmhga1uip0tvq3vhadnm5; expires=Sun, 25-Jan-2015 05:38:41 GMT; path=/',
             "Connection": 'Keep-Alive',
             "Accept-Encoding": 'gzip,deflate',   
             "Content-Type":"application/x-www-form-urlencoded" 
         }
     };
 
-Util.buyGouLiang = function(startV, limit){
-    Util.getData(startV,'shop.php?do=Buy',{GoodsId:1},function(res){
+Util.buyRune = function(startV, limit){
+    Util.getData(startV,'meditation.php?do=Info','',function(res){
+        startV++;
+        console.log(res);
+        res = eval('(' + res + ')');
+        if (res.status == 1) {
+            var npcList = res.data.NpcList;
+            var max = npcList[0];
+            for (var i = 0; i < npcList.length; i++) {
+                if(max < npcList[i]){
+                    max = npcList[i];
+                }
+            };
+            Util.buyRuneCell(startV, startV + limit, max);
+        };
+    });
+}
+
+Util.buyRuneCell = function(startV, limit, npc){
+    if (startV >= limit) {
+        //deal
+        Util.getData(startV, 'meditation.php?do=Deal', '', function(res){
+            startV++;
+            //console.log(res);
+            res = eval('(' + res + ')');
+            if (res.status == 1) {
+                console.log("buy rune end");
+            }
+        });
+    }else{
+        Util.getData(startV, 'meditation.php?do=Npc',{NpcId:npc},function(res){
+            startV++;
+            console.log(res);
+            res = eval('(' + res + ')');
+            if (res.status == 1) {
+                var npcList = res.data.NpcList;
+                var max = npcList[0];
+                for (var i = 0; i < npcList.length; i++) {
+                    if(max < npcList[i]){
+                        max = npcList[i];
+                    }
+                };
+                Util.buyRuneCell(startV, limit, max);
+            }else if(res.message == "冥想的格子满了，无法继续冥想。"){
+                Util.getData(startV, 'meditation.php?do=Deal', '', function(res){
+                    //startV++;
+                    //console.log(res);
+                    res = eval('(' + res + ')');
+                    if (res.status == 1) {
+                        Util.buyRuneCell(startV, limit, max);
+                    }
+                });
+            }else{
+                console.log("buy rune end");
+            }
+        });
+    }
+}
+
+Util.freeBuy = function(startV){
+    Util.getData(startV,'shopnew.php?do=GetGoods','',function(res){
+        startV++;
+        console.log(res);
+        res = eval('(' + res + ')');
+        if (res.status == 1) {
+            var oldgood = res.data.oldgood;
+            var keys = Object.keys(oldgood);
+            for (var i = 0; i < keys.length; i++) {
+                if(oldgood[keys[i]].GoodsId == 7 || oldgood[keys[i]].GoodsId == 1){
+                    var goods = oldgood[keys[i]];
+                    if (goods.RemainTime == 0 && goods.FreeTimes < goods.MaxFreeTimes) {
+                        Util.freeBuyGouLiang(startV,goods.MaxFreeTimes - goods.FreeTimes + startV, goods.GoodsId, goods.CoolDown);
+                        startV++;
+                    };
+                }
+            };
+        };
+    });
+}
+
+Util.freeBuyGouLiang = function(startV, limit, id, coldT){
+    Util.getData(startV,'shopnew.php?do=FreeBuy',{GoodsId:id},function(res){
         startV++;
         console.log(res);
         res = eval('(' + res + ')');
         if (res.status == 1 && startV < limit) {
-            setTimeout(Util.buyGouLiang, 1000, startV, limit);
+            setTimeout(Util.freeBuyGouLiang, coldT*1000, startV, limit, id, coldT);
+        }   
+    });
+}
+
+Util.buyGouLiang = function(startV, limit, id, coldT){
+    Util.getData(startV,'shop.php?do=Buy',{GoodsId:id},function(res){
+        startV++;
+        console.log(res);
+        res = eval('(' + res + ')');
+        if (res.status == 1 && startV < limit) {
+            setTimeout(Util.buyGouLiang, coldT*1000, startV, limit, id, coldT);
         }   
     });
 }

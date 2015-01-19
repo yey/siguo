@@ -13,13 +13,22 @@ auto play siguo
  * fightboss->ok
  * recognize compitetors lv and choose a better one
  * fight pve
+ * free cards
+ * buy runes
  */
 
 /**
  * todo:
  *
- * buy runes
+ * everyday tasks
+ * 	pata
+ * 	thiefs
+ * 	card/rune fusion
+ * make everyday-task in one task, check awards
+ * 
  * 当前连续性任务无法继续
+ * 	add a task buffer, begin|time->putin, end->putout
+ * 	try&catch error->redo the task in buffer
  *
  * getGoodCards:
  * fightTower
@@ -36,6 +45,15 @@ auto play siguo
  * recognize boss type and choose groups
  * composite cards groups
  * create brain
+ */
+
+/**
+ * reconstructe code:
+ * model
+ * logic
+ * 	operation
+ * 	dispatch
+ * config
  */
 
 =====

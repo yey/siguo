@@ -63,6 +63,25 @@ var c6 = [
 ];
 setTask(c6,Util.getFEnergy,5716);
 
+/**
+ * free buy cards every day
+ */
+
+var c7 = [
+	{h:[1], m:[5]},
+	{h:[15], m:[5]}
+];
+setTask(c7, Util.freeBuy, 5716);
+
+/**
+ * daily buy rune
+ */
+
+var c8 = [
+	{h:[0],m:[5]}
+];
+setTask(c8, Util.buyRune, 5716, 5);
+
 /***************************/
 function setTask(t,task,v){
 	var s = {
