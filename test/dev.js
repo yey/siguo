@@ -45,6 +45,10 @@ function pro(){
 			Util.buyRune(5716, parseInt(argv[1]));
 			break;
 		}
+		case "10":{
+			Util.testNew(5716);
+			break;
+		}
 		default:{
 					//console.log("no such function");
 					console.log("1:buyGouLiang\n2:fightBoss\n3:useEnergy\n4:sendFEnergy\n5:fightJJC\n6:getFEnergy\n7:getAwards\n8:freeBuy\n9:buyRune");
