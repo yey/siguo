@@ -59,7 +59,9 @@ function pro(){
 			break;
 		}
 		case "11":{
-			Util.testNew(5716);
+			//Util.test(5716);
+			Util.tower(5716, parseInt(argv[1]));
+			//Util.fightTowerLayer(5716,parseInt(argv[1]),parseInt(argv[2]));
 			break;
 		}
 		default:{
