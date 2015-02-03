@@ -5,7 +5,16 @@ var argv=process.argv.slice(2);
 
 function pro(){
 	if(argv.length <= 0){
-		console.log("1:buyGouLiang\n2:fightBoss\n3:useEnergy\n4:sendFEnergy\n5:fightJJC\n6:getFEnergy\n7:getAwards\n8:freeBuy\n9:buyRune");
+		console.log("1:buyGouLiang\n"
+			+"2:fightBoss\n"
+			+"3:useEnergy\n"
+			+"4:sendFEnergy\n"
+			+"5:fightJJC\n"
+			+"6:getFEnergy\n"
+			+"7:getAwards\n"
+			+"8:freeBuy\n"
+			+"9:buyRune\n"
+			+"10:tigerMachine");
 		process.exit(0);
 	}
 	switch(argv[0]){
@@ -46,12 +55,25 @@ function pro(){
 			break;
 		}
 		case "10":{
+			Util.TigerMachine(5716);
+			break;
+		}
+		case "11":{
 			Util.testNew(5716);
 			break;
 		}
 		default:{
 					//console.log("no such function");
-					console.log("1:buyGouLiang\n2:fightBoss\n3:useEnergy\n4:sendFEnergy\n5:fightJJC\n6:getFEnergy\n7:getAwards\n8:freeBuy\n9:buyRune");
+					console.log("1:buyGouLiang\n"
+						+"2:fightBoss\n"
+						+"3:useEnergy\n"
+						+"4:sendFEnergy\n"
+						+"5:fightJJC\n"
+						+"6:getFEnergy\n"
+						+"7:getAwards\n"
+						+"8:freeBuy\n"
+						+"9:buyRune\n"
+						+"10:tigerMachine");
 					process.exit(0);
 				}
 	}

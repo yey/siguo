@@ -45,6 +45,8 @@ auto play siguo
  * recognize boss type and choose groups
  * composite cards groups
  * create brain
+ *
+ * make use of GA to bet
  */
 
 /**

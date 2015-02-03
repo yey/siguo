@@ -3,6 +3,29 @@ var Util = require('./model/Util');
 var later = require('later');
 later.date.localTime();
 
+/*
+0:1,5,55
+1:5,10
+2:5
+3:15,55
+4:1
+5:20
+6:55
+8:1
+9:55
+11:20,55
+12:55
+13:1
+15:5,55
+16:5
+17:5,55
+18:5,55
+19:1
+20:1
+21:55
+23:5,30,55
+ */
+
 /**
 * fight boss v1.0
 * todo: add boss type check and change card groups
@@ -68,8 +91,8 @@ setTask(c6,Util.getFEnergy,5716);
  */
 
 var c7 = [
-	{h:[1], m:[5]},
-	{h:[15], m:[5]}
+	{h:[1,2], m:[5]},
+	{h:[15,16,17], m:[5]}
 ];
 setTask(c7, Util.freeBuy, 5716);
 
@@ -82,6 +105,16 @@ var c8 = [
 ];
 setTask(c8, Util.buyRune, 5716, 5);
 
+/**
+ * tager free
+ */
+
+var c9 = [
+	{h:[1],m:[10]},
+	{h:[3],m:[15]},
+	{h:[5],m:[20]}
+];
+setTask(c9, Util.TigerMachine, 5716);
 /***************************/
 function setTask(t,task,v){
 	var s = {

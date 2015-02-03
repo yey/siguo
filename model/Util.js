@@ -10,10 +10,10 @@ var unicode = require('./Unicode');
 var opts = {
     host: 's0.siguozhanji.muhenet.com',
     port: 80,
-    path: '&phpp=ANDROID&phpl=ZH_CN&pvc=1.6.0.0&phpk=5c1d4b25b6d599053f55915a8f780c49&phps=885776591&pvb=2015-01-28 10:45',
+    path: '&phpp=ANDROID&phpl=ZH_CN&pvc=1.6.0.0&phpk=62492bdfb0f47a7f93bfcacc547721a0&phps=336932653&pvb=2015-01-29 18:24',
     method: 'POST',
     headers: {
-            "Cookie":'_sid=3tb5tog0v9v99rhnu43t4qii35; expires=Sat, 07-Feb-2015 02:46:35 GMT; path=/',
+            "Cookie":'_sid=augc92c2h6ql4jdfdn9bpshkg2; expires=Sun, 08-Feb-2015 10:24:10 GMT; path=/',
             "Connection": 'Keep-Alive',
             "Accept-Encoding": 'gzip,deflate',   
             "Content-Type":"application/x-www-form-urlencoded" 
@@ -21,14 +21,26 @@ var opts = {
     };
 
 Util.testNew = function(startV){
-    Util.getData(startV,'league.php?do=lotteryInfo','',function(res){
+    Util.getData(startV,'task.php?do=GetDailyTaskInfo','',function(res){
 //    Util.getData(startV,'league.php?do=GetGoods','',function(res){
 //    Util.getData(startV,'league.php?do=getLeagueInfo','',function(res){
+//    Util.getData(startV,'league.php?do=lottery','',function(res){
         startV++;
         console.log(res);
         res = eval('(' + res + ')');
         if (res.status == 1) {
             
+        };
+    });
+}
+
+Util.TigerMachine = function(startV){
+    Util.getData(startV,'league.php?do=lottery','',function(res){
+        startV++;
+        console.log(res);
+        res = eval('(' + res + ')');
+        if (res.status == 1) {
+            Util.TigerMachine(startV);
         };
     });
 }
@@ -265,7 +277,8 @@ Util.planEnergy = function(startV){
 }
 
 Util.clearEnergyByPve = function(startV,gid){
-    Util.changeCardGroups(startV,5450,function(res){
+    //group 3
+    Util.changeCardGroups(startV,6083,function(res){
         startV++;
         if (!res) {
             Util.getData(startV,'mapstage.php?do=EditUserMapStages',{MapStageDetailId:gid,isManual:1},function(res2){
