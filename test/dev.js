@@ -5,7 +5,7 @@ var argv=process.argv.slice(2);
 
 function pro(){
 	if(argv.length <= 0){
-		console.log("1:buyGouLiang\n"
+		console.log("1:buyGouLiang num\n"
 			+"2:fightBoss\n"
 			+"3:useEnergy\n"
 			+"4:sendFEnergy\n"
@@ -13,8 +13,9 @@ function pro(){
 			+"6:getFEnergy\n"
 			+"7:getAwards\n"
 			+"8:freeBuy\n"
-			+"9:buyRune\n"
-			+"10:tigerMachine");
+			+"9:buyRune num\n"
+			+"10:tigerMachine\n"
+			+"11:fightTower tower");
 		process.exit(0);
 	}
 	switch(argv[0]){
@@ -59,14 +60,16 @@ function pro(){
 			break;
 		}
 		case "11":{
-			//Util.test(5716);
 			Util.tower(5716, parseInt(argv[1]));
-			//Util.fightTowerLayer(5716,parseInt(argv[1]),parseInt(argv[2]));
+			break;
+		}
+		case "12":{
+			Util.test(5716);
 			break;
 		}
 		default:{
 					//console.log("no such function");
-					console.log("1:buyGouLiang\n"
+					console.log("1:buyGouLiang num\n"
 						+"2:fightBoss\n"
 						+"3:useEnergy\n"
 						+"4:sendFEnergy\n"
@@ -74,8 +77,9 @@ function pro(){
 						+"6:getFEnergy\n"
 						+"7:getAwards\n"
 						+"8:freeBuy\n"
-						+"9:buyRune\n"
-						+"10:tigerMachine");
+						+"9:buyRune num\n"
+						+"10:tigerMachine\n"
+						+"11:fightTower tower");
 					process.exit(0);
 				}
 	}

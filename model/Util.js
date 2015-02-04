@@ -177,6 +177,14 @@ Util.tower = function(startV,id){
                 Util.fightTowerLayer(startV,id,res.data.Layer);
             }else if(res.data.FreeReset == 1){
                 //reset and fight
+                Util.getData(startV, 'maze.php?do=Reset',{MapStageId:id},function(res2){
+                    startV++;
+                    console.log(res2);
+                    res2 = eval('(' + res2 + ')');
+                    if (res2.status == 1) {
+                        Util.fightTowerLayer(startV,id,res.data.Layer);
+                    }
+                });
             }
         }
     });
@@ -196,10 +204,22 @@ Util.fightTowerLayer = function(startV,map,layer){
                 }else{
                     if (layer+1 > res.data.TotalLayer) {
                         console.log(map+"塔已经扫完");
-                    }else if(checkTower(res.data.Map.Items)){
-                        console.log("未完成终止");
                     }else{
-                        Util.fightTowerLayer(startV, map, layer+1);           
+                        Util.getData(startV,'maze.php?do=Info',{MapStageId:map,Layer:layer},function(res2){
+                            startV++;
+                            //console.log(res2);
+                            res2 = eval('(' + res2 + ')');
+                            if (res2.status == 1) {
+                                if((res2.data.RemainBoxNum + res2.data.RemainMonsterNum > 0) || !res2.data.Map.IsFinish){
+                                    //console.log(res.data.Map.Items);
+                                    console.log("未完成终止");
+                                }else{
+                                    Util.fightTowerLayer(startV, map, layer+1);           
+                                }
+                            }else{
+                                console.log("data error");
+                            }
+                        });
                     }
                 }
             });
@@ -221,88 +241,51 @@ Util.fightTower = function(startV,map,layer,cb){
         res = eval('(' + res + ')');
         if (res.status == 1) {
             if (res.data && res.data.Map) {
-                if (res.data.Map.IsFinish) {
-                    cb(200);
-                }else{
-                    var taskList = res.data.Map.Items;
-                    var len = 0;
-                    async.whilst(
-                        function(){return len<taskList.length;},
-                        function(callback){
-                            var item = taskList[len];
-                            if (item == 2 || item == 3 || item == 5) {
-                                Util.getData(startV,'maze.php?do=Battle',{MapStageId:map,Layer:layer,manual:1,ItemIndex:len},function(res2){
+                var taskList = res.data.Map.Items;
+                var len = 0;
+                async.whilst(
+                    function(){return len<taskList.length;},
+                    function(callback){
+                        Util.getData(startV,'maze.php?do=Battle',{MapStageId:map,Layer:layer,manual:1,ItemIndex:len},function(res2){
+                            startV++;
+                            //console.log(res2);
+                            res2 = eval('(' + res2 + ')');
+                            if (res2.status == 1) {
+                                Util.getData(startV,'maze.php?do=ManualBattle',{stage:'',battleid:res2.data.BattleId,manual:0},function(res3){
                                     startV++;
-                                    //console.log(res2);
-                                    res2 = eval('(' + res2 + ')');
-                                    if (res2.status == 1) {
-                                        Util.getData(startV,'maze.php?do=ManualBattle',{stage:'',battleid:res2.data.BattleId,manual:0},function(res3){
-                                            startV++;
-                                            //console.log(res3);
-                                            res3 = eval('(' + res3 + ')');
-                                            if (res3.status == 1) {
-                                                len++;
-                                                callback(null);
-                                            }else{
-                                                len++;
-                                                callback(205,"finish fight error");
-                                            }
-                                        });
+                                    //console.log(res3);
+                                    res3 = eval('(' + res3 + ')');
+                                    if (res3.status == 1) {
+                                        len++;
+                                        callback(null);
                                     }else{
                                         len++;
-                                        callback(204, "begin fight error");
+                                        callback(205);
                                     }
-                                });           
-                            }else{
+                                });
+                            }else if (res2.message.indexOf("战斗信息")>=0) {
                                 len++;
                                 callback(null);
-                            }
-                        },
-                        function(err,msg){
-                            if (err) {
-                                console.log(msg);
-                                cb(err, msg);
                             }else{
-                                cb(200);
+                                len++;
+                                callback(204);
                             }
+                        });           
+                    },
+                    function(err){
+                        if (err) {
+                            var msg = err==204?"begin fight error":(err==205?"finish fight error":"fuck error");
+                            cb(err, msg);
+                        }else{
+                            cb(200);
                         }
-                    );
-                }
+                    }
+                );
             }else{
                 cb(203,"data error");
             }
         }
     });
-    // Util.getData(startV,'maze.php?do=Battle',{MapStageId:map,Layer:layer,manual:1,ItemIndex:item},function(res){
-    //     startV++;
-    //     console.log(res);
-    //     res = eval('(' + res + ')');
-    //     if (res.status == 1) {
-    //         Util.getData(startV,'maze.php?do=ManualBattle',{stage:'',battleid:res.data.BattleId,manual:0},function(res2){
-    //             startV++;
-    //             console.log(res2);
-    //             res2 = eval('(' + res2 + ')');
-    //             if (res2.status == 1) {
-
-    //             };
-    //         });
-    //     };
-    // });
-    // 
-    // //             var items = res.data.Map.Items;
-    //         // turn for into async.whlist
-    //         for (var i = 0; i < items.length; i++) {
-    //             if(items[i] == 2 || items[i] == 3 || items[i] == 5){
-    //                 console.log(i);
-    //                 //Util.fightTower(startV,map,layer,i);
-    //             }
-    //         };
-    //         // if (res.data.Layer < res.data.TotalLayer) {
-    //         //     console.log("yey" + res.data.Layer);
-    //         //     var l = layer++;
-    //         //     Util.fightTowerLayer(startV,map,l);
-    //         // };
-
 }
 
 
@@ -586,7 +569,7 @@ Util.getData = function(startV, path, data, callback){
 function checkTower(itemList){
     var found = false;
     for (var i = 0; i < itemList.length; i++) {
-        if(itemList[i] == 2 || itemList[i] == 3 || itemList[i] == 5){
+        if(itemList[i] == 2 || itemList[i] == 3){
             found = true;
             break;
         }

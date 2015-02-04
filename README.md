@@ -15,38 +15,43 @@ auto play siguo
  * fight pve
  * free cards
  * buy runes
+ * fightTower
+ */
+
+/**
+ * buglist
+ *
+ * buyrune on schedule
+ * freebuy on schedule
+ * 
+ * 
+ * 当前连续性任务无法继续
+ * add a task buffer, begin|time->putin, end->putout
+ * try&catch error->redo the task in buffer
+ *
+ * 
  */
 
 /**
  * todo:
  *
- * everyday tasks
- * 	pata
+ *	tower schedule
+ * 
+ * everyday tasks 
+ *  check awards and accept
  * 	thiefs
  * 	card/rune fusion
- * make everyday-task in one task, check awards
  * 
- * 当前连续性任务无法继续
- * 	add a task buffer, begin|time->putin, end->putout
- * 	try&catch error->redo the task in buffer
  *
  * getGoodCards:
- * fightTower
  * fightThief
  * read config
  * new little boys
  * 
- * Compute energy and task weight,choose better way
+ * 自动竞猜
  *
- * getDiamonds:
- * recognise activities
+ * 自动组卡－》自动报名
  *
- * beWinner:
- * recognize boss type and choose groups
- * composite cards groups
- * create brain
- *
- * make use of GA to bet
  */
 
 /**
