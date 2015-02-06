@@ -31,7 +31,7 @@ var c1 = [
 	{h:[13], m:[1]},
 	{h:[19], m:[1]}
 ];
-setTask(c1,Util.fightBossV2, 5716);
+//setTask(c1,Util.fightBossV2, 5716);
 
 /**
  * send Friends Energy
