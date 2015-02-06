@@ -22,8 +22,7 @@ var opts = {
     };
 
 Util.test = function(startV){
-    Util.getData(startV,'task.php?do=GetDailyTaskInfo','',function(res){
-//    Util.getData(startV,'league.php?do=GetGoods','',function(res){
+    Util.getData(startV,'league.php?do=GetGoods','',function(res){
 //    Util.getData(startV,'league.php?do=getLeagueInfo','',function(res){
 //    Util.getData(startV,'league.php?do=lottery','',function(res){
         startV++;
@@ -31,6 +30,23 @@ Util.test = function(startV){
         res = eval('(' + res + ')');
         if (res.status == 1) {
             
+        };
+    });
+}
+
+Util.dailyTask = function(startV){
+    Util.getData(startV,'task.php?do=GetDailyTaskInfo','',function(res){
+        startV++;
+        console.log(res);
+        res = eval('(' + res + ')');
+        if (res.status == 1) {
+            var rewardList = checkDailyReward(res.data.Rewarded, res.data.Point);
+            for (var i = 0; i < rewardList.length; i++) {
+                Util.getData(startV,'task.php?do=GetDailyTaskReward',{point:rewardList[i]},function(res2){
+                    startV++;
+                    console.log(res2);
+                });
+            };
         };
     });
 }
@@ -575,4 +591,26 @@ function checkTower(itemList){
         }
     };
     return found;
+}
+
+function checkDailyReward(list, point){
+    var targetList = [40,60,80,100];
+    var resList = [];
+    for (var i = 0; i < targetList.length; i++) {
+        if (point >= targetList[i]){
+           var found = false;
+            for (var j = 0; j < list.length; j++) {
+                if(list[j] == targetList[i]){
+                    found = true;
+                    break;
+                }
+            };
+            if (!found) {
+                resList.push(targetList[i]);
+            }; 
+        }else{
+            break;
+        }
+    };
+    return resList;
 }

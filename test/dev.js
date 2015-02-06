@@ -15,7 +15,8 @@ function pro(){
 			+"8:freeBuy\n"
 			+"9:buyRune num\n"
 			+"10:tigerMachine\n"
-			+"11:fightTower tower");
+			+"11:fightTower tower\n"
+			+"12:dailyTask");
 		process.exit(0);
 	}
 	switch(argv[0]){
@@ -64,6 +65,10 @@ function pro(){
 			break;
 		}
 		case "12":{
+			Util.dailyTask(5716);
+			break;
+		}
+		case "13":{
 			Util.test(5716);
 			break;
 		}
@@ -79,7 +84,8 @@ function pro(){
 						+"8:freeBuy\n"
 						+"9:buyRune num\n"
 						+"10:tigerMachine\n"
-						+"11:fightTower tower");
+						+"11:fightTower tower\n"
+						+"12:dailyTask");
 					process.exit(0);
 				}
 	}

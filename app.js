@@ -6,7 +6,6 @@ later.date.localTime();
 /*
 0:1,5,55
 1:5,10
-2:5
 3:15
 4:1
 5:20
@@ -14,14 +13,13 @@ later.date.localTime();
 9:55
 11:20,55
 13:1
-15:5
-16:5,45
-17:5,55
+16:45
+17:55
 18:5,55
 19:1
 20:1
 21:55
-23:5,30,55
+23:5,30,50,55
  */
 
 /**
@@ -89,8 +87,7 @@ setTask(c6,Util.getFEnergy,5716);
  */
 
 var c7 = [
-	{h:[1,2], m:[5]},
-	{h:[15,16,17], m:[5]}
+	{h:[1], m:[5]}
 ];
 setTask(c7, Util.freeBuy, 5716);
 
@@ -101,7 +98,7 @@ setTask(c7, Util.freeBuy, 5716);
 var c8 = [
 	{h:[0],m:[5]}
 ];
-setTask(c8, Util.buyRune, 5716, 5);
+setTask2(c8, Util.buyRune, 5716, 5);
 
 /**
  * tager free
@@ -121,22 +118,32 @@ setTask(c9, Util.TigerMachine, 5716);
 var c10 = [
 	{h:[8], m:[55]}
 ];
-setTask(c10, Util.tower, 5716, 8);
+setTask2(c10, Util.tower, 5716, 8);
 var c11 = [
 	{h:[16], m:[45]}
 ];
-setTask(c11, Util.tower, 5716, 7);
+setTask2(c11, Util.tower, 5716, 7);
+
+/**
+ * daily task
+ */
+
+var c12 = [
+	{h:[23], m:[50]}
+];
+setTask(c12, Util.dailyTask, 5716);
+
 /***************************/
 function setTask(t,task,v){
 	var s = {
 		schedules:t
 	};
-	var timer = later.setInterval(task,s,v);
+	var timer = later.setInterval(function(){task(v);},s);
 }
 
 function setTask2(t,task,v,id){
 	var s = {
 		schedules:t
 	};
-	var timer = later.setInterval(task,s,v,id);
+	var timer = later.setInterval(function(){task(v,id);},s);
 }

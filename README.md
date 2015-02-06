@@ -16,13 +16,13 @@ auto play siguo
  * free cards
  * buy runes
  * fightTower
+ * tower schedule
+ * check awards and accept
  */
 
 /**
  * buglist
  *
- * buyrune on schedule
- * freebuy on schedule
  * 
  * 
  * 当前连续性任务无法继续
@@ -34,12 +34,11 @@ auto play siguo
 
 /**
  * todo:
- *
- *	tower schedule
  * 
  * everyday tasks 
- *  check awards and accept
+ *  
  * 	thiefs
+ * 	or haidela
  * 	card/rune fusion
  * 
  *
